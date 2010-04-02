@@ -1,7 +1,7 @@
 #include <iostream>
-using namespace std;
+#include "binary_tree.h"
 
-#include "binary_trees.h"
+using namespace std;
 
 /*  SEARCH  */
 /* find_r: Recursive search
@@ -98,11 +98,15 @@ insert_nr(tree *tree, int data) {
 
         for (;;) {
             dir = it->data < data; // which direction?
-
+            
+            if (it->link[dir] == NULL) // we've reached a leaf
+                break;
+            /* 
             if (it->data == data) // already in tree, won't insert duplicates
                 return 0;
             else if (it->link[dir] == NULL) // we've reached a leaf, don't continue
                 break;
+            */
 
             it = it->link[dir]; // link to the node we want to insert the data
         }
@@ -142,7 +146,7 @@ remove(tree *tree, int data) {
 
         if (f != NULL) { // if we found the node to delete
             f->data = it->data; // copy 
-            p->link[p->link[1] == it] = it->link[it->link[0] == NULL];
+            p->link[p->link[1] == it] = it->link[it->link[0] == NULL]; // :)
             delete it;
         }
 
