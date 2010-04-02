@@ -26,7 +26,6 @@ main(void)
 		 << "\t(c) Messwert loeschen\n"
          << "\t(d) Messwert suchen\n"
          << "\t(e) Durchschnittswert errechnen\n"
-		 << "\t(f) Datenstand anzeigen\n"
 		 << "\t(q) Program beenden\n   >> ";
         cin >> choice;
 		
@@ -40,6 +39,7 @@ main(void)
             case 'B':
             case 'b':
                 showValues(measurements);
+                cout << "Anzahl der Messwerte: " << total << endl;
 				break;
 				
             case 'C':
@@ -58,11 +58,6 @@ main(void)
                 calcAvg(measurements, total);
                 break;
 
-            case 'F':
-            case 'f':
-                print_tree(measurements->root, total);
-                break;
-
             case 'Q':
             case 'q': break;
 				
@@ -71,8 +66,8 @@ main(void)
 		
     } while (choice != 'q' && choice != 'Q');
 
-    // Delete Tree
-    destroy_nr(measurements);
+    // Delete Tree (or destroy(measurements);)
+    destroy(measurements);
 
     return 0;
 }
@@ -140,6 +135,7 @@ searchValue(tree *meas)
     cout << "Bitte Wert eingeben: ";
     cin >> value;
     
+    // or find(meas, value);
     it = find_nr(meas, value);
     
     if (it == NULL) {

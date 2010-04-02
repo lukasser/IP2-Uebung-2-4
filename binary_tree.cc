@@ -59,7 +59,6 @@ find_nr(tree *tree, double data)
     return NULL; // not found
 }
 
-
 /*  INSERTION  */
 /* insert_r: Recursive insertion
  *
@@ -194,7 +193,7 @@ destroy(tree *tree)
 /* destroy_nr: Non-recurse delete entire tree
  *
  * Args: pointer to tree
- * */
+ */
 
 void
 destroy_nr(tree *tree)
@@ -268,30 +267,6 @@ void
 postorder(tree *tree)
 {
     postorder_r(tree->root);
-}
-
-/* print_tree: Print the tree 90degree cc
- *
- * Args: pointer to root, depth to print
- */
-void
-print_tree(node *root, int level)
-{
-    int i;
-
-    if (root == NULL) {
-        for (i=0; i<level; i++)
-            cout << "-";
-        cout << "~\n";
-    } else {
-        print_tree(root->link[1], level++);
-
-        for (i=0; i<level; i++)
-            cout << "\t";
-        cout << root->data;
-
-        print_tree(root->link[0], level++);
-    }
 }
 
 /* make_node: Create a node

@@ -34,7 +34,6 @@ void inorder_r(node*);      /* recursive inorder */
 void inorder(tree*);        /* convenience wrapper for inorder_r */
 void postorder_r(node*);    /* recursive postorder */
 void postorder(tree*);      /* convenience wrapper for postorder_r */
-void print_tree(node*, int);/* print a tree horizontally  */
 
-/* Auxillary Functions */
-node* make_node(double, unsigned int);       /* create a node with data */
+/* Auxilary Functions */
+node* make_node(double, unsigned int);   /* create a node with data */
