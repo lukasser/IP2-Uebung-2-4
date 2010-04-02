@@ -20,8 +20,8 @@ int find(tree*, int);       /* convenience wrapper for find_r */
 
 /* Insertion Functions */
 node* insert_r(node*, int); /* recursive insertion */ 
-node* insert(tree*, int);   /* convenience wrapper for insert_r */
-node* insert_nr(tree*, int);/* non-recursive insertion */
+int insert(tree*, int);   /* convenience wrapper for insert_r */
+int insert_nr(tree*, int);/* non-recursive insertion */
 
 /* Deletion Functions */
 int remove(tree*, int);     /* delete a node */
@@ -171,7 +171,7 @@ insert_nr(tree *tree, int data) {
 int
 remove(tree *tree, int data) {
     if (tree->root != NULL) { //non-empty tree
-        node *head = {0};   // dummy root
+        node head = {0};   // dummy root
         node *it = &head;   // current position
         node *p, *f = NULL; // parent node, help pointer if found
         int dir = 1;  // traverse to the right
@@ -291,7 +291,7 @@ postorder(tree *tree) {
  */
 void
 print_tree(node *root, int level) {
-    int i
+    int i;
 
     if (root == NULL) {
         for (i=0; i<level; i++)
