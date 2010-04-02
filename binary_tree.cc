@@ -1,8 +1,11 @@
-/* See Copyright.md for copyright information */
-/* inspired by http://eternallyconfuzzled.com/tuts/datastructures */
+/* Implementaion of several binary search tree (BST) functions.
+ *
+ * See COPYING for copyright information
+ * inspired by http://eternallyconfuzzled.com/tuts/datastructures 
+ */
+
 #include <iostream>
 #include "binary_tree.h"
-
 using namespace std;
 
 /*  SEARCH  */
@@ -13,7 +16,8 @@ using namespace std;
  *
  */
 int
-find_r(node *root, int data) {
+find_r(node *root, int data)
+{
     if (root == NULL) {
         return 0; // not found
     } else if (root->data == data) {
@@ -27,7 +31,8 @@ find_r(node *root, int data) {
 /* find: Convenience wrapper for find_r
  */
 int
-find(tree *tree, int data) {
+find(tree *tree, int data)
+{
     return find_r(tree->root, data);
 }
 
@@ -37,7 +42,8 @@ find(tree *tree, int data) {
  * Returns: 0 if not found, 1 if found
  */
 int
-find_nr(tree *tree, int data) {
+find_nr(tree *tree, int data)
+{
     node *it = tree->root;
 
     while (it != NULL) {
@@ -61,7 +67,8 @@ find_nr(tree *tree, int data) {
  *
  */
 node*
-insert_r(node *root, int data, unsigned int id) {
+insert_r(node *root, int data, unsigned int id)
+{
     if (root == NULL)
         root = make_node(data, id);
     // else if (root->data == data)  // accept dups
@@ -79,7 +86,8 @@ insert_r(node *root, int data, unsigned int id) {
  * Returns: 1 if successful
  */
 int
-insert(tree *tree, int data, unsigned int id) {
+insert(tree *tree, int data, unsigned int id)
+{
     tree->root = insert_r(tree->root, data, id);
     return 1;
 }
@@ -91,7 +99,8 @@ insert(tree *tree, int data, unsigned int id) {
  *
  */
 int
-insert_nr(tree *tree, int data, unsigned int id) {
+insert_nr(tree *tree, int data, unsigned int id)
+{
     if (tree->root == NULL) // empty tree 
         tree->root = make_node(data, id);
     else {
@@ -128,7 +137,8 @@ insert_nr(tree *tree, int data, unsigned int id) {
  *
  */
 int
-remove(tree *tree, unsigned int id) {
+remove(tree *tree, unsigned int id)
+{
     if (tree->root != NULL) { //non-empty tree
         node head = {0};   // dummy root
         node *it = &head;   // current position
@@ -165,7 +175,8 @@ remove(tree *tree, unsigned int id) {
  * Returns: nothing
  */
 void
-destroy_r(node *root) {
+destroy_r(node *root)
+{
     if (root != NULL) {
         destroy_r(root->link[0]);
         destroy_r(root->link[1]);
@@ -174,7 +185,8 @@ destroy_r(node *root) {
 }
 
 void
-destroy(tree *tree) {
+destroy(tree *tree)
+{
     destroy_r(tree->root);
 }
 
@@ -184,7 +196,8 @@ destroy(tree *tree) {
  * */
 
 void
-destroy_nr(tree *tree) {
+destroy_nr(tree *tree)
+{
     node *it = tree->root;
     node *save;
 
@@ -206,7 +219,8 @@ destroy_nr(tree *tree) {
 /* TRAVERSAL */
 // Preorder
 void
-preorder_r(node *root) {
+preorder_r(node *root)
+{
     if (root != NULL) {
         cout << "ID: " << root->id << " MW: "<< root->data << endl;
         preorder_r(root->link[0]);
@@ -215,13 +229,15 @@ preorder_r(node *root) {
 }
 
 void
-preorder(tree *tree) {
+preorder(tree *tree)
+{
     preorder_r(tree->root);
 }
 
 // Inorder
 void
-inorder_r(node *root) {
+inorder_r(node *root)
+{
     if (root != NULL) {
         inorder_r(root->link[0]);
         cout << "ID: " << root->id << " MW: "<< root->data << endl;
@@ -230,14 +246,16 @@ inorder_r(node *root) {
 }
 
 void
-inorder(tree *tree) {
+inorder(tree *tree)
+{
     inorder_r(tree->root);
 }
 
 
 // Postorder
 void
-postorder_r(node *root) {
+postorder_r(node *root)
+{
     if (root != NULL) {
         postorder_r(root->link[0]);
         postorder_r(root->link[1]);
@@ -246,7 +264,8 @@ postorder_r(node *root) {
 }
 
 void
-postorder(tree *tree) {
+postorder(tree *tree)
+{
     postorder_r(tree->root);
 }
 
@@ -255,7 +274,8 @@ postorder(tree *tree) {
  * Args: pointer to root, depth to print
  */
 void
-print_tree(node *root, int level) {
+print_tree(node *root, int level)
+{
     int i;
 
     if (root == NULL) {
@@ -279,7 +299,8 @@ print_tree(node *root, int level) {
  * Returns: pointer to new node
  */
 node*
-make_node(int data, unsigned int id) {
+make_node(int data, unsigned int id)
+{
     node *it = new node;
 
     it->data = data;

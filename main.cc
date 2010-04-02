@@ -1,6 +1,6 @@
 /* 
  * This is the main program for Uebung2_4 - Messdatenerfassung.
- *
+ * See COPYING for copyright information.
  */
 
 #include <iostream>
@@ -10,7 +10,8 @@
 using namespace std;
 
 int
-main(void) {
+main(void)
+{
 
     tree *measurements = new tree; // tree to hold the values
     unsigned int total = 0;  // total number of stored values
@@ -72,7 +73,8 @@ main(void) {
 
 /* Add a value to measurements */
 void
-addValue(tree *meas, unsigned int id) {
+addValue(tree *meas, unsigned int id)
+{
     int value;
     
     cout << "Bitte Messwert eingeben: ";
@@ -84,7 +86,8 @@ addValue(tree *meas, unsigned int id) {
 
 /* Print values (in/pre/post) */
 void
-showValues(tree *meas) {
+showValues(tree *meas)
+{
     char choice;
 
     cout << "\nMesswerte ausgeben\n"
@@ -110,7 +113,8 @@ showValues(tree *meas) {
 
 /* Delete a value from measurements */
 void
-delValue(tree *meas) {
+delValue(tree *meas)
+{
     unsigned int value;
     
     cout << "Bitte ID eingeben: ";
@@ -122,7 +126,8 @@ delValue(tree *meas) {
 
 /* Calculate & print the average of measurements */
 void
-calcAvg(tree *meas, int total) {
+calcAvg(tree *meas, int total)
+{
     if (total <= 0) {
         cout << "Keine Daten vorhanden!\n";
         return;
@@ -137,7 +142,8 @@ calcAvg(tree *meas, int total) {
 
 /* sum all values in tree */
 void
-sumVals(node *root, int *sum) {
+sumVals(node *root, int *sum)
+{
     if (root != NULL) {
         sumVals(root->link[0], sum);
         sumVals(root->link[1], sum);
