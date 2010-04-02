@@ -19,6 +19,11 @@ int find(tree*, int);      /* conveneince wrapper for find_r */
 
 /* Insertion Functions */
 node* insert_r(node*, int);  /* recursive insertion */ 
+node* insert(tree*, int);
+node* insert_nr(tree*, int);
+
+/* Deletion Functions */
+int remove(node*, int);
 
 /* Auxillary Functions */
 node* make_node(int);      /* create a node with data */
@@ -123,7 +128,7 @@ insert_nr(tree *tree, int data) {
         for (;;) {
             dir = it->data < data; // which direction?
 
-            if (it->data == data) // already in tree
+            if (it->data == data) // already in tree, won't insert duplicates
                 return 0;
             else if (it->link[dir] == NULL) // we've reached a leaf, don't continue
                 break;
@@ -135,6 +140,61 @@ insert_nr(tree *tree, int data) {
     }
 
     return 1; // successfully inserted data
+}
+
+/* remove: Delete a node from the tree
+ *
+ * Args: tree pointer, data to delete
+ * Returns: 1 if successful, 0 if not
+ *
+ * We have to distinguish three cases:
+ *  (1) deletion of an external node
+ *  (2) deletion of an internal node
+ *  (3) deletion of the root of a tree
+ *
+ * Case (1)
+ * -------
+ *  We have to replace the node to delete with its non-leaf child.
+ *  or a leaf it doesn't have any. If it has a left child, replace it
+ *  with the left child because it's an external node an the right child
+ *  is sure to be a leaf. If the node has a right child, this is the
+ *  symmetric case. It it has no children, just pick one because they're
+ *  both leaves. Be sure to reset the parent to point to the child,
+ *  and it unlinks the node from the tree.
+ *
+ * Case (2)
+ * -------
+ *
+ */
+int
+remove(tree *tree, int data) {
+    if (tree->root != NULL) { //non-empty tree
+        node *head = {0};   // dummy root
+        node *it = &head;   // current position
+        node *p, *f = NULL; // parent node, help pointer if found
+        int dir = 1;  // traverse to the right
+
+        it->link[1] = tree->root;
+
+        while (it->link[dir] != NULL) { // traverse to the bottom
+            p = it;  // save parent node
+            it = it->link[dir]; // proceed the current pointer
+            dir = it->data <= data; // which direction?
+
+            if (it->data == data)
+                f = it;  // found it
+        }
+
+        if (f != NULL) { // if we found the node to delete
+            f->data = it->data; // copy 
+            p->link[p->link[1] == it] = it->link[it->link[0] == NULL];
+            delete it;
+        }
+
+        tree->root = head.link[1];
+    }
+
+    return 1;
 }
 
 /* make_node: Create a node
