@@ -13,25 +13,25 @@ int
 main(void) {
 
     tree *measurements = new tree; // tree to hold the values
-    int total = 0;  // total number of stored values
+    unsigned int total = 0;  // total number of stored values
     char choice;
 
     /*  Main Menu loop */
     do {
 
-        cout << "\n========================================\n"
-         << "(a) Messwert eingeben\n"
-		 << "(b) Messwerte ausgeben\n"
-		 << "(c) Messwert loeschen\n"
-         << "(d) Durchschnittswert errechnen\n"
-		 << "(e) Datenstand anzeigen\n"
-		 << "(q) Program beenden\n   >> ";
+        cout << "\n----- Menu -----\n"
+         << "\t(a) Messwert eingeben\n"
+		 << "\t(b) Messwerte ausgeben\n"
+		 << "\t(c) Messwert loeschen\n"
+         << "\t(d) Durchschnittswert errechnen\n"
+		 << "\t(e) Datenstand anzeigen\n"
+		 << "\t(q) Program beenden\n   >> ";
         cin >> choice;
 		
         switch (choice) {
             case 'A':
             case 'a':
-                addValue(measurements);
+                addValue(measurements, total);
                 total++;
 				break;
 				
@@ -72,14 +72,13 @@ main(void) {
 
 /* Add a value to measurements */
 void
-addValue(tree *meas) {
+addValue(tree *meas, unsigned int id) {
     int value;
     
-    cout << "\nMesswert hinzufuegen\n"
-        << "Bitte Messwert eingeben: ";
+    cout << "Bitte Messwert eingeben: ";
     cin >> value;
     
-    if (insert(meas, value) != 1) // or insert_nr(...)
+    if (insert_nr(meas, value, id) != 1)
         cout << "ERROR\n\n";
 }
 
@@ -112,10 +111,9 @@ showValues(tree *meas) {
 /* Delete a value from measurements */
 void
 delValue(tree *meas) {
-    int value;
+    unsigned int value;
     
-    cout << "\nMesswert loeschen\n"
-         << "Bitte Messwert eingeben: ";
+    cout << "Bitte ID eingeben: ";
     cin >> value;
 
     if (remove(meas, value) != 1)
@@ -130,7 +128,7 @@ calcAvg(tree *meas, int total) {
     }
     
     int vals = 0;
-    vals = sumVals(meas->root);
+    vals = sumVals(meas->root, 0);
 
     cout << "\nDer Durchschnitt der Messwerte betraegt: "
          << vals/total << endl;
@@ -138,14 +136,13 @@ calcAvg(tree *meas, int total) {
 
 /* sum all values in tree */
 int
-sumVals(node *root) {
-    static int sum = 0;
-
+sumVals(node *root, int sum) {
+    cout << "Sum: " << sum << endl;
     if (root != NULL) {
-        sumVals(root->link[0]);
-        sumVals(root->link[1]);
-        sum += root->data;    
+        sum++;
+        sumVals(root->link[0], sum);
+        sumVals(root->link[1], sum);
     }
-    
+
     return sum;
 }

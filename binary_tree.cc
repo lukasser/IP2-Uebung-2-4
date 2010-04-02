@@ -1,3 +1,5 @@
+/* See Copyright.md for copyright information */
+/* inspired by http://eternallyconfuzzled.com/tuts/datastructures */
 #include <iostream>
 #include "binary_tree.h"
 
@@ -59,14 +61,14 @@ find_nr(tree *tree, int data) {
  *
  */
 node*
-insert_r(node *root, int data) {
+insert_r(node *root, int data, unsigned int id) {
     if (root == NULL)
-        root = make_node(data);
+        root = make_node(data, id);
     // else if (root->data == data)  // accept dups
     //    return root;
     else {
         int dir = root->data < data;
-        root->link[dir] = insert_r(root->link[dir], data);
+        root->link[dir] = insert_r(root->link[dir], data, id);
     }
 
     return root;
@@ -77,8 +79,8 @@ insert_r(node *root, int data) {
  * Returns: 1 if successful
  */
 int
-insert(tree *tree, int data) {
-    tree->root = insert_r(tree->root, data);
+insert(tree *tree, int data, unsigned int id) {
+    tree->root = insert_r(tree->root, data, id);
     return 1;
 }
 
@@ -89,9 +91,9 @@ insert(tree *tree, int data) {
  *
  */
 int
-insert_nr(tree *tree, int data) {
+insert_nr(tree *tree, int data, unsigned int id) {
     if (tree->root == NULL) // empty tree 
-        tree->root = make_node(data);
+        tree->root = make_node(data, id);
     else {
         node *it = tree->root; // help pointer 
         int dir;
@@ -111,7 +113,7 @@ insert_nr(tree *tree, int data) {
             it = it->link[dir]; // link to the node we want to insert the data
         }
 
-        it->link[dir] = make_node(data);
+        it->link[dir] = make_node(data, id);
     }
 
     return 1; // successfully inserted data
@@ -126,26 +128,27 @@ insert_nr(tree *tree, int data) {
  *
  */
 int
-remove(tree *tree, int data) {
+remove(tree *tree, unsigned int id) {
     if (tree->root != NULL) { //non-empty tree
         node head = {0};   // dummy root
         node *it = &head;   // current position
         node *p, *f = NULL; // parent node, help pointer if found
-        int dir = 1;  // traverse to the right
+        unsigned int dir = 1;  // traverse to the right
 
         it->link[1] = tree->root;
 
         while (it->link[dir] != NULL) { // traverse to the bottom
             p = it;  // save parent node
             it = it->link[dir]; // proceed the current pointer
-            dir = it->data <= data; // which direction?
+            dir = it->id <= id; // which direction?
 
-            if (it->data == data)
+            if (it->id == id)
                 f = it;  // found it
         }
 
         if (f != NULL) { // if we found the node to delete
-            f->data = it->data; // copy 
+            f->data = it->data; // copy
+            f->id = it->id;
             p->link[p->link[1] == it] = it->link[it->link[0] == NULL]; // :)
             delete it;
         }
@@ -175,6 +178,11 @@ destroy(tree *tree) {
     destroy_r(tree->root);
 }
 
+/* destroy_nr: Non-recurse delete entire tree
+ *
+ * Args: pointer to tree
+ * */
+
 void
 destroy_nr(tree *tree) {
     node *it = tree->root;
@@ -200,7 +208,7 @@ destroy_nr(tree *tree) {
 void
 preorder_r(node *root) {
     if (root != NULL) {
-        cout << "MW: " << root->data << endl;
+        cout << "ID: " << root->id << " MW: "<< root->data << endl;
         preorder_r(root->link[0]);
         preorder_r(root->link[1]);
     }
@@ -216,7 +224,7 @@ void
 inorder_r(node *root) {
     if (root != NULL) {
         inorder_r(root->link[0]);
-        cout << "MW: " << root->data << endl;
+        cout << "ID: " << root->id << " MW: "<< root->data << endl;
         inorder_r(root->link[1]);
     }
 }
@@ -233,7 +241,7 @@ postorder_r(node *root) {
     if (root != NULL) {
         postorder_r(root->link[0]);
         postorder_r(root->link[1]);
-        cout << "MW: " << root->data << endl;
+        cout << "ID: " << root->id << " MW: "<< root->data << endl;
     }
 }
 
@@ -252,7 +260,7 @@ print_tree(node *root, int level) {
 
     if (root == NULL) {
         for (i=0; i<level; i++)
-            cout << "\t";
+            cout << "-";
         cout << "~\n";
     } else {
         print_tree(root->link[1], level++);
@@ -271,10 +279,11 @@ print_tree(node *root, int level) {
  * Returns: pointer to new node
  */
 node*
-make_node(int data) {
+make_node(int data, unsigned int id) {
     node *it = new node;
 
     it->data = data;
+    it->id = id;
     it->link[0] = NULL;
     it->link[1] = NULL;
 
