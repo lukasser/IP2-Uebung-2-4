@@ -112,6 +112,30 @@ insert(tree *tree, int data) {
  * Returns: 1 if successful, 0 if not
  *
  */
+int
+insert_nr(tree *tree, int data) {
+    if (tree->root == NULL) // empty tree 
+        tree->root = make_node(data);
+    else {
+        node *it = tree->root; // help pointer 
+        int dir;
+
+        for (;;) {
+            dir = it->data < data; // which direction?
+
+            if (it->data == data) // already in tree
+                return 0;
+            else if (it->link[dir] == NULL) // we've reached a leaf, don't continue
+                break;
+
+            it = it->link[dir]; // link to the node we want to insert the data
+        }
+
+        it->link[dir] = make_node(data);
+    }
+
+    return 1; // successfully inserted data
+}
 
 /* make_node: Create a node
  *
