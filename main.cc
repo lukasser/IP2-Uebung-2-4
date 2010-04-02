@@ -120,29 +120,27 @@ delValue(tree *meas) {
         cout << "ERROR\n\n";
 }
 
-/* Calculate & print the average of measurments */
+/* Calculate & print the average of measurements */
 void
 calcAvg(tree *meas, int total) {
     if (total <= 0) {
+        cout << "Keine Daten vorhanden!\n";
         return;
     }
     
-    int vals = 0;
-    vals = sumVals(meas->root, 0);
-
+    int sum = 0;
+    sumVals(meas->root, &sum);
+    
     cout << "\nDer Durchschnitt der Messwerte betraegt: "
-         << vals/total << endl;
+         << (double)sum/total << endl;
 }
 
 /* sum all values in tree */
-int
-sumVals(node *root, int sum) {
-    cout << "Sum: " << sum << endl;
+void
+sumVals(node *root, int *sum) {
     if (root != NULL) {
-        sum++;
         sumVals(root->link[0], sum);
         sumVals(root->link[1], sum);
+        *sum += root->data;
     }
-
-    return sum;
 }
