@@ -15,6 +15,7 @@ main(void)
 
     tree *measurements = new tree; // tree to hold the values
     unsigned int total = 0;  // total number of stored values
+    unsigned int id = 0;    // ids of values
     char choice;
 
     /*  Main Menu loop */
@@ -32,8 +33,8 @@ main(void)
         switch (choice) {
             case 'A':
             case 'a':
-                addValue(measurements, total);
-                total++;
+                addValue(measurements, id);
+                total++, id++;
 				break;
 				
             case 'B':
