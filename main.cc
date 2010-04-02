@@ -24,8 +24,9 @@ main(void)
          << "\t(a) Messwert eingeben\n"
 		 << "\t(b) Messwerte ausgeben\n"
 		 << "\t(c) Messwert loeschen\n"
-         << "\t(d) Durchschnittswert errechnen\n"
-		 << "\t(e) Datenstand anzeigen\n"
+         << "\t(d) Messwert suchen\n"
+         << "\t(e) Durchschnittswert errechnen\n"
+		 << "\t(f) Datenstand anzeigen\n"
 		 << "\t(q) Program beenden\n   >> ";
         cin >> choice;
 		
@@ -49,11 +50,16 @@ main(void)
 
             case 'D':
             case 'd':
-                calcAvg(measurements, total);
+                searchValue(measurements);
                 break;
 
             case 'E':
             case 'e':
+                calcAvg(measurements, total);
+                break;
+
+            case 'F':
+            case 'f':
                 print_tree(measurements->root, total);
                 break;
 
@@ -75,7 +81,7 @@ main(void)
 void
 addValue(tree *meas, unsigned int id)
 {
-    int value;
+    double value;
     
     cout << "Bitte Messwert eingeben: ";
     cin >> value;
@@ -115,13 +121,33 @@ showValues(tree *meas)
 void
 delValue(tree *meas)
 {
-    unsigned int value;
+    unsigned int id;
     
     cout << "Bitte ID eingeben: ";
-    cin >> value;
+    cin >> id;
 
-    if (remove(meas, value) != 1)
+    if (remove(meas, id) != 1)
         cout << "ERROR\n\n";
+}
+
+/* Search for a value */
+void
+searchValue(tree *meas)
+{
+    double value = 0.0;
+    node *it = NULL;
+
+    cout << "Bitte Wert eingeben: ";
+    cin >> value;
+    
+    it = find_nr(meas, value);
+    
+    if (it == NULL) {
+        cout << "Wert nicht gefunden!";
+    } else {
+        cout << "Wert gefunden: " 
+             << "ID: " << it->id << " Wert: " << it->data << endl;
+    }
 }
 
 /* Calculate & print the average of measurements */
@@ -133,16 +159,16 @@ calcAvg(tree *meas, int total)
         return;
     }
     
-    int sum = 0;
+    double sum = 0.0;
     sumVals(meas->root, &sum);
     
     cout << "\nDer Durchschnitt der Messwerte betraegt: "
-         << (double)sum/total << endl;
+         << sum/total << endl; // type conversion??
 }
 
 /* sum all values in tree */
 void
-sumVals(node *root, int *sum)
+sumVals(node *root, double *sum)
 {
     if (root != NULL) {
         sumVals(root->link[0], sum);

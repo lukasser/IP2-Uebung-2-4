@@ -9,19 +9,20 @@
 using namespace std;
 
 /*  SEARCH  */
+// NOTE: only returns first found element.
 /* find_r: Recursive search
  *
  * Args: pointer to root, data to search for
- * Returns: 1 if found, 0 if not found
+ * Returns: NULL pointer if not found, pointer to node if found
  *
  */
-int
-find_r(node *root, int data)
+node*
+find_r(node *root, double data)
 {
     if (root == NULL) {
-        return 0; // not found
+        return NULL; // not found
     } else if (root->data == data) {
-        return 1; // found
+        return root; // found
     } else {
         int dir = root->data < data; // which subtree to follow?
         return find_r(root->link[dir], data);
@@ -30,8 +31,8 @@ find_r(node *root, int data)
 
 /* find: Convenience wrapper for find_r
  */
-int
-find(tree *tree, int data)
+node*
+find(tree *tree, double data)
 {
     return find_r(tree->root, data);
 }
@@ -39,23 +40,23 @@ find(tree *tree, int data)
 /* find_nr: Non-recursive search
  *
  * Args: pointer to tree, data to search for
- * Returns: 0 if not found, 1 if found
+ * Returns: NULL pointer if not found, pointer to node if found
  */
-int
-find_nr(tree *tree, int data)
+node*
+find_nr(tree *tree, double data)
 {
     node *it = tree->root;
 
     while (it != NULL) {
         if (it->data == data)
-            return 1;   // found
+            return it;   // found
         else {
             int dir = it->data < data; // which direction?
             it = it->link[dir];
         }
     }
 
-    return 0; // not found
+    return NULL; // not found
 }
 
 
@@ -67,7 +68,7 @@ find_nr(tree *tree, int data)
  *
  */
 node*
-insert_r(node *root, int data, unsigned int id)
+insert_r(node *root, double data, unsigned int id)
 {
     if (root == NULL)
         root = make_node(data, id);
@@ -86,7 +87,7 @@ insert_r(node *root, int data, unsigned int id)
  * Returns: 1 if successful
  */
 int
-insert(tree *tree, int data, unsigned int id)
+insert(tree *tree, double data, unsigned int id)
 {
     tree->root = insert_r(tree->root, data, id);
     return 1;
@@ -99,7 +100,7 @@ insert(tree *tree, int data, unsigned int id)
  *
  */
 int
-insert_nr(tree *tree, int data, unsigned int id)
+insert_nr(tree *tree, double data, unsigned int id)
 {
     if (tree->root == NULL) // empty tree 
         tree->root = make_node(data, id);
@@ -299,7 +300,7 @@ print_tree(node *root, int level)
  * Returns: pointer to new node
  */
 node*
-make_node(int data, unsigned int id)
+make_node(double data, unsigned int id)
 {
     node *it = new node;
 
