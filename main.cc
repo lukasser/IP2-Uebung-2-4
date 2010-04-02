@@ -23,7 +23,7 @@ main(void) {
          << "(a) Messwert eingeben\n"
 		 << "(b) Messwerte ausgeben\n"
 		 << "(c) Messwert loeschen\n"
-         << "(d) Durchschnittswert errechnen\n\n"
+         << "(d) Durchschnittswert errechnen\n"
 		 << "(e) Datenstand anzeigen\n"
 		 << "(q) Program beenden\n   >> ";
         cin >> choice;
@@ -146,6 +146,6 @@ sumVals(node *root) {
         sumVals(root->link[1]);
         sum += root->data;    
     }
-
+    
     return sum;
 }
