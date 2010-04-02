@@ -147,24 +147,6 @@ insert_nr(tree *tree, int data) {
  * Args: tree pointer, data to delete
  * Returns: 1 if successful, 0 if not
  *
- * We have to distinguish three cases:
- *  (1) deletion of an external node
- *  (2) deletion of an internal node
- *  (3) deletion of the root of a tree
- *
- * Case (1)
- * -------
- *  We have to replace the node to delete with its non-leaf child.
- *  or a leaf it doesn't have any. If it has a left child, replace it
- *  with the left child because it's an external node an the right child
- *  is sure to be a leaf. If the node has a right child, this is the
- *  symmetric case. It it has no children, just pick one because they're
- *  both leaves. Be sure to reset the parent to point to the child,
- *  and it unlinks the node from the tree.
- *
- * Case (2)
- * -------
- *
  */
 int
 remove(tree *tree, int data) {
@@ -195,6 +177,115 @@ remove(tree *tree, int data) {
     }
 
     return 1;
+}
+
+/* destroy_r: Recurse delete entire tree
+ *
+ * Args: pointer to root
+ * Returns: nothing
+ */
+void
+destroy_r(node *root) {
+    if (root != NULL) {
+        destroy_r(root->link[0]);
+        destroy_r(root->link[1]);
+        delete root;
+    }
+}
+
+void
+destroy(tree *tree) {
+    destroy_r(tree->root);
+}
+
+void
+destroy_nr(tree *tree) {
+    node *it = tree->root;
+    node *save;
+
+    while (it != NULL) {
+        if (it->link[0] != NULL) {
+            // right rotation
+            save = it->link[0];
+            it->link[0] = save->link[1];
+            save->link[1] = it;
+        } else {
+            save = it->link[1];
+            delete it;
+        }
+        
+        it = save;
+    }
+}
+
+/* Traversal functions */
+// Preorder
+void
+preorder_r(node *root) {
+    if (root != NULL) {
+        cout << root->data;
+        preorder_r(root->link[0]);
+        preorder_r(root->link[1]);
+    }
+}
+
+void
+preorder(tree *tree) {
+    preorder_r(tree->root);
+}
+
+// Inorder
+void
+inorder_r(node *root) {
+    if (root != NULL) {
+        inorder_r(root->link[0]);
+        cout << root->data;
+        inorder_r(root->link[1]);
+    }
+}
+
+void
+inorder(tree *tree) {
+    inorder_r(tree->root);
+}
+
+
+// Postorder
+void
+postorder_r(node *root) {
+    if (root != NULL) {
+        postorder_r(root->link[0]);
+        postorder_r(root->link[1]);
+        cout << root->data;
+    }
+}
+
+void
+postorder(tree *tree) {
+    postorder_r(tree->root);
+}
+
+/* print_tree: Print the tree 90degree cc
+ *
+ * Args: pointer to root, depth to print
+ */
+void
+print_tree(node *root, int level) {
+    int i
+
+    if (root == NULL) {
+        for (i=0; i<level; i++)
+            cout << "\t";
+        cout << "~\n";
+    } else {
+        print_tree(root->link[1], level++);
+
+        for (i=0; i<level; i++)
+            cout << "\t";
+        cout << root->data;
+
+        print_tree(root->link[0], level++);
+    }
 }
 
 /* make_node: Create a node
