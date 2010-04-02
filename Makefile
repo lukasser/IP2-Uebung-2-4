@@ -1,6 +1,6 @@
 all: uebung2_4
 
-uebung2_4: main.o binary_tree.cc
+uebung2_4: main.o binary_tree.o
 	g++ main.o binary_tree.o -Wall -o uebung2_4
 
 main.o: main.cc
