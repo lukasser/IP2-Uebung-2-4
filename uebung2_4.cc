@@ -32,7 +32,7 @@ main(void) {
             case 'A':
             case 'a':
                 addValue(measurements);
-                total++
+                total++;
 				break;
 				
             case 'B':
@@ -53,7 +53,7 @@ main(void) {
 
             case 'E':
             case 'e':
-                print_tree(measurements);
+                print_tree(measurements->root, total);
                 break;
 
             case 'Q':
@@ -130,7 +130,7 @@ calcAvg(tree *meas, int total) {
     }
     
     int vals = 0;
-    vals = sumVals(meas);
+    vals = sumVals(meas->root);
 
     cout << "\nDer Durchschnitt der Messwerte betraegt: "
          << vals/total << endl;

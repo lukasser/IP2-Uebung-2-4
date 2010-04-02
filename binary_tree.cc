@@ -200,7 +200,7 @@ destroy_nr(tree *tree) {
 void
 preorder_r(node *root) {
     if (root != NULL) {
-        cout << root->data;
+        cout << "MW: " << root->data << endl;
         preorder_r(root->link[0]);
         preorder_r(root->link[1]);
     }
@@ -216,7 +216,7 @@ void
 inorder_r(node *root) {
     if (root != NULL) {
         inorder_r(root->link[0]);
-        cout << root->data;
+         cout << "MW: " << root->data << endl;
         inorder_r(root->link[1]);
     }
 }
@@ -233,7 +233,7 @@ postorder_r(node *root) {
     if (root != NULL) {
         postorder_r(root->link[0]);
         postorder_r(root->link[1]);
-        cout << root->data;
+         cout << "MW: " << root->data << endl;
     }
 }
 

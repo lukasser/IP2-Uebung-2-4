@@ -24,6 +24,7 @@ int insert_nr(tree*, int);/* non-recursive insertion */
 int remove(tree*, int);     /* delete a node */
 void destroy_r(node*);      /* recursive destruction of entire tree */
 void destroy(tree*);        /* convenience wrapper for destroy_r */
+void destroy_nr(tree*);     /* non-recursive destrution of entire tree */
 
 /* Traversal Functions */
 void preorder_r(node*);     /* recursive preorder */
