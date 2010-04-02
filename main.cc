@@ -5,7 +5,7 @@
 
 #include <iostream>
 #include "binary_tree.h"
-#include "uebung2_4.h"
+#include "main.h"
 
 using namespace std;
 
@@ -78,8 +78,8 @@ addValue(tree *meas) {
     cout << "\nMesswert hinzufuegen\n"
         << "Bitte Messwert eingeben: ";
     cin >> value;
-
-    if (insert_nr(meas, value) != 1)
+    
+    if (insert(meas, value) != 1) // or insert_nr(...)
         cout << "ERROR\n\n";
 }
 

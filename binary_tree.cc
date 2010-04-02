@@ -62,8 +62,8 @@ node*
 insert_r(node *root, int data) {
     if (root == NULL)
         root = make_node(data);
-    else if (root->data == data)
-        return root;
+    // else if (root->data == data)  // accept dups
+    //    return root;
     else {
         int dir = root->data < data;
         root->link[dir] = insert_r(root->link[dir], data);
@@ -216,7 +216,7 @@ void
 inorder_r(node *root) {
     if (root != NULL) {
         inorder_r(root->link[0]);
-         cout << "MW: " << root->data << endl;
+        cout << "MW: " << root->data << endl;
         inorder_r(root->link[1]);
     }
 }
@@ -233,7 +233,7 @@ postorder_r(node *root) {
     if (root != NULL) {
         postorder_r(root->link[0]);
         postorder_r(root->link[1]);
-         cout << "MW: " << root->data << endl;
+        cout << "MW: " << root->data << endl;
     }
 }
 

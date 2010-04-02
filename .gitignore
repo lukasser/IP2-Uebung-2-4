@@ -1,0 +1,16 @@
+.DS_Store
+.*swp
+.tmp
+.couchapprc
+.svn
+.hg
+
+# xcode noise
+build/*
+*.pbxuser
+*.mode1v3
+
+# old skool
+.svn
+
+profile
