@@ -1,5 +1,5 @@
-IP2/3HS - Uebung 2-4
-Binary Trees 
-============
+== Trees
+=== IP2/3HS
+*Uebung 2-4
 
-Nothing interresting to see here. See Task.pdf for Details. 
+See Task.pdf for Details. 
