@@ -18,11 +18,11 @@ node* find(tree*, double);       /* convenience wrapper for find_r */
 
 /* Insertion Functions */
 node* insert_r(node*, double, unsigned int); /* recursive insertion */ 
-int insert(tree*, double, unsigned int);   /* convenience wrapper for insert_r */
-int insert_nr(tree*, double, unsigned int);/* non-recursive insertion */
+bool insert(tree*, double, unsigned int);   /* convenience wrapper for insert_r */
+bool insert_nr(tree*, double, unsigned int);/* non-recursive insertion */
 
 /* Deletion Functions */
-int remove(tree*, unsigned int);     /* delete a node */
+bool remove(tree*, unsigned int);     /* delete a node */
 void destroy_r(node*);      /* recursive destruction of entire tree */
 void destroy(tree*);        /* convenience wrapper for destroy_r */
 void destroy_nr(tree*);     /* non-recursive destrution of entire tree */

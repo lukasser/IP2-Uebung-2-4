@@ -5,7 +5,7 @@
 
 #include <iostream>
 #include "binary_tree.h"
-#include "main.h"
+#include "app.h"
 
 using namespace std;
 
@@ -26,15 +26,16 @@ main(void)
 		 << "\t(b) Messwerte ausgeben\n"
 		 << "\t(c) Messwert loeschen\n"
          << "\t(d) Messwert suchen\n"
-         << "\t(e) Durchschnittswert errechnen\n"
+         << "\t(e) Durchschnittswert berechnen\n"
+         << "\t(f) Standardabweichung berechnen\n"
 		 << "\t(q) Program beenden\n   >> ";
         cin >> choice;
 		
         switch (choice) {
             case 'A':
             case 'a':
-                addValue(measurements, id);
-                total++, id++;
+                if (addValue(measurements, id))
+                    total++, id++;
 				break;
 				
             case 'B':
@@ -45,8 +46,8 @@ main(void)
 				
             case 'C':
             case 'c':
-                delValue(measurements);
-                total--;
+                if (delValue(measurements))
+                    total--;
 				break;
 
             case 'D':
@@ -56,7 +57,12 @@ main(void)
 
             case 'E':
             case 'e':
-                calcAvg(measurements, total);
+                avg(measurements, total);
+                break;
+
+            case 'F':
+            case 'f':
+                stdDev(measurements, total);
                 break;
 
             case 'Q':
@@ -69,107 +75,7 @@ main(void)
 
     // Delete Tree (or destroy(measurements);)
     destroy(measurements);
+    delete measurements;
 
     return 0;
-}
-
-/* Add a value to measurements */
-void
-addValue(tree *meas, unsigned int id)
-{
-    double value;
-    
-    cout << "Bitte Messwert eingeben: ";
-    cin >> value;
-    
-    if (insert_nr(meas, value, id) != 1)
-        cout << "ERROR\n\n";
-}
-
-/* Print values (in/pre/post) */
-void
-showValues(tree *meas)
-{
-    char choice;
-
-    cout << "\nMesswerte ausgeben\n"
-         << "(a) Pre-Order, (b) In-Order, (c) Post-Order\n"
-         << "> ";
-    cin >> choice;
-
-    switch (choice) {
-        case 'a':
-            preorder(meas);
-            break;
-        case 'b':
-            inorder(meas);
-            break;
-        case 'c':
-            postorder(meas);
-            break;
-        default: 
-            cout << "Fehler!\n";
-            break;
-    }
-}
-
-/* Delete a value from measurements */
-void
-delValue(tree *meas)
-{
-    unsigned int id;
-    
-    cout << "Bitte ID eingeben: ";
-    cin >> id;
-
-    if (remove(meas, id) != 1)
-        cout << "ERROR\n\n";
-}
-
-/* Search for a value */
-void
-searchValue(tree *meas)
-{
-    double value = 0.0;
-    node *it = NULL;
-
-    cout << "Bitte Wert eingeben: ";
-    cin >> value;
-    
-    // or find(meas, value);
-    it = find_nr(meas, value);
-    
-    if (it == NULL) {
-        cout << "Wert nicht gefunden!";
-    } else {
-        cout << "Wert gefunden: " 
-             << "ID: " << it->id << " Wert: " << it->data << endl;
-    }
-}
-
-/* Calculate & print the average of measurements */
-void
-calcAvg(tree *meas, int total)
-{
-    if (total <= 0) {
-        cout << "Keine Daten vorhanden!\n";
-        return;
-    }
-    
-    double sum = 0.0;
-    sumVals(meas->root, &sum);
-    
-    cout << "\nDer Durchschnitt der Messwerte betraegt: "
-         << sum/total << endl; // type conversion??
-}
-
-/* sum all values in tree */
-void
-sumVals(node *root, double *sum)
-{
-    if (root != NULL) {
-        sumVals(root->link[0], sum);
-        sumVals(root->link[1], sum);
-        *sum += root->data;
-    }
 }

@@ -85,20 +85,20 @@ insert_r(node *root, double data, unsigned int id)
  *
  * Returns: 1 if successful
  */
-int
+bool
 insert(tree *tree, double data, unsigned int id)
 {
     tree->root = insert_r(tree->root, data, id);
-    return 1;
+    return true;
 }
 
 /* insert_nr: Non-recursive insertion
  *
  * Args: pointer to tree, data to insert
- * Returns: 1 if successful, 0 if not
+ * Returns: true if successful, false if not
  *
  */
-int
+bool
 insert_nr(tree *tree, double data, unsigned int id)
 {
     if (tree->root == NULL) // empty tree 
@@ -114,7 +114,7 @@ insert_nr(tree *tree, double data, unsigned int id)
                 break;
             /* 
             if (it->data == data) // already in tree, won't insert duplicates
-                return 0;
+                return false;
             else if (it->link[dir] == NULL) // we've reached a leaf, don't continue
                 break;
             */
@@ -125,7 +125,7 @@ insert_nr(tree *tree, double data, unsigned int id)
         it->link[dir] = make_node(data, id);
     }
 
-    return 1; // successfully inserted data
+    return true; // successfully inserted data
 }
 
 
@@ -133,10 +133,10 @@ insert_nr(tree *tree, double data, unsigned int id)
 /* remove: Delete a node from the tree
  *
  * Args: tree pointer, data to delete
- * Returns: 1 if successful, 0 if not
+ * Returns: true if successful, false if not
  *
  */
-int
+bool
 remove(tree *tree, unsigned int id)
 {
     if (tree->root != NULL) { //non-empty tree
@@ -164,9 +164,15 @@ remove(tree *tree, unsigned int id)
         }
 
         tree->root = head.link[1];
+    
+    if (f == NULL) // node not found
+        return false;
+
+    return true;
+    
     }
 
-    return 1;
+    return false;
 }
 
 /* destroy_r: Recurse delete entire tree
